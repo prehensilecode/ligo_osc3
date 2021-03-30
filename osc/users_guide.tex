@@ -1,22 +1,11 @@
-// Yo, Emacs! This is -*- LaTeX -*-
-//
-// $Id: users_guide.hh,v 1.6 2003/01/25 03:15:55 dwchin Exp $
-//
-// Contact: David Chin <dwchin@umich.edu>
-//
-//         2477 Randall Lab, Univ. of Michigan
-//         500 E. University Ave.
-//         Ann Arbor, MI 48109
-//         +1-734-764-5146
-//         +1-734-730-1274
-//
-// Original author: K. Riles <kriles@umich.edu>
+\documentclass[11pt]{article}
 
-
-
-//@{
-
-/** @name User's Guide
+\title{User's Guide}
+\author{David Chin}
+\date{August 18, 2003}
+\begin{document}
+\maketitle
+\pagebreak
 \begin{center}
   \textbf{{\Large Defining and Testing Operational State Conditions 
       in the Data Monitor Tool}}
@@ -219,7 +208,7 @@ file which are not directly involved in defining OSCs.
 \item \textbf{Effect:} Sets the time stride of the \texttt{Dacc} data
   accessor object associated with the \texttt{OperStateCondList}.
 \item \textbf{Syntax:} \texttt{stride 2} -- the argument must be an
-  integer. Only values $\gt 0$ make sense, though non-positive values do
+  integer. Only values $> 0$ make sense, though non-positive values do
   not cause an error.
 \item \textbf{Note:} To ensure that the stride that is set from the
   configuration file is in effect, the \texttt{Dacc::setStride()}
@@ -838,7 +827,7 @@ The \texttt{OperStateCond} objects have some features worth noting:
    a corresponding method.
 \item All atomic OSCs have a \texttt{watchedQuantity()} method which returns
    the most recent \texttt{double} value of the quantity being monitored,
-   \textit{e.g} the mean value for a \textt{mean*} condition, the
+   \textit{e.g} the mean value for a \texttt{mean*} condition, the
    power for a \texttt{power*} condition.
 \end{itemize}
 
@@ -1129,6 +1118,4 @@ have config line parsing written inline in the constructor of
 its own parser since it's a bit of a trick to parse a Boolean
 expression.
 
-*/
-
-//@}
+\end{document}
