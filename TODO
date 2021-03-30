@@ -1,0 +1,233 @@
+# $Id: TODO,v 1.3 2002/06/26 14:20:16 dwchin Exp $
+
+
+1.  Write OSCboolean::satisfied().
+
+       DONE: 2001-Feb-13
+
+2.  Fix up OSCBooleanParser::parse() to check that condition names have been
+    defined before being used in a Boolean OSC.
+
+       DONE: 2001-Feb-13
+
+3.  Read environment var for a std place for config files.
+
+       DONE: 2001-Mar-11 (use $DMTPARS)
+
+4.  Add "include" capability to config files.
+
+       DONE: 2001-Mar-09
+
+5.  All other OSCs.
+       valuerange  -- DONE 2001-Mar-9
+       meanrange   -- DONE 2001-Mar-14
+       meanbelow   -- DONE 2001-Mar-14
+       abspowerbelow-- DONE 2001-Mar-14
+       abspowerrange-- DONE 2001-Mar-14
+       fractpowerabove -- DONE 2001-Mar-16
+       fractpowerbelow-- DONE 2001-Mar-16
+       fractpowerrange -- DONE 2001-Mar-16
+       fractpowerrise
+       fractpowerfall
+       poweranymag
+       poweranydemag
+       poweravemag
+       poweravedemag
+       rmsabove        -- DONE 2001-Mar-16
+       rmsbelow        -- DONE 2001-Mar-16
+       rmsrange        -- DONE 2001-Mar-16
+       bitand          -- DONE 2001-Mar-18
+       bitnand         -- DONE 2001-Mar-18
+       bitor           -- DONE 2001-Mar-18
+       bitnor          -- DONE 2001-Mar-18
+
+    Suggestions:
+
+       frequency -- meta -- number of occurences in given time interval 
+
+       For value* conditions: 
+          specify thresholds in terms of sigma (std dev.)
+
+6.  Transitup and transitdown.
+
+       DONE: 2001-Feb-15
+
+7.  meanabove
+
+       DONE meanabove: 2001-Feb-22
+
+8a.  abspowerabove
+
+       DONE: 2001-Feb-22
+
+ b.  Need to check Parseval's      
+
+       DONE: 2001-Feb-22
+
+9.  Fix up OSCBoolean word tokens to accept digits not in the
+    first position.
+
+       Nothing needed: already handled
+
+10. Fix up OperStateCondList::parseAtomicParams() to deal with OSCs that
+    have more than one parameter which are listed non-alphabetically in 
+    the config file.  (See line #528)
+
+       DONE: 2001-Feb-21
+
+11. Update docs.
+
+12. C++ replacement for strtok_r(). Using stuff like .find()
+    and .substr(), maybe.
+
+       Partially DONE: removed strtok_r() from parseAtomicParams()
+
+13. Testing:
+
+    1. Valueabove     -- OK
+    2. Valuebelow     -- OK
+    3. Valuerange     -- OK
+    4. Meanabove      -- OK    2001-Mar-9
+    5. Abspowerabove  -- OK - passes Parseval's, but not checked value of PSD
+    6. Boolean        -- OK  
+    7. Transitup      -- OK    2001-Feb-22
+    8. Transitdown    -- OK    2001-Feb-22
+
+14. Integrate with DMT viewer: talk to Ed Daw.
+
+        see 17.
+
+15. Read parameters from named channels.
+
+      See item 20.
+
+16. "ignore" keyword
+
+        DONE -- 2001-Mar-09
+
+17. Integrate with DMT viewer: talk to Ed Daw.
+
+18. Implement OperStateCondList::newOperStateCond() method?
+
+19. Implement OperStateCondList::setOutStream() method.
+
+20. Read parameters from channels.
+
+       Almost there for OSCvalueabove.  Trickiness because TSeries::refDVect()
+       is private.  Would like to avoid allocating a whole array of data just
+       to read one parameter. 
+            -- Bit the bullet. We are now allocating an array of data
+               every Frame, and then deallocating.
+
+       Oops. Have to fix OperStateCondList::parseAtomicParams(). 2001-Mar-14
+            -- Fixed
+
+21. Want to add allvaluesabove, etc which turn on if ALL values in the
+    channel satisfy the condition, rather than any (as is the case
+    right now).
+
+        Modified. See 22.
+
+22. Instead of new conditions "allvaluesabove" etc, add a new parameter
+    called "portion" (or something TBA) ranging from 0 to 100, specifying
+    the percentage of the data needed to satisfy the condition.  A negative
+    number (the default) means that having any value in the data stream
+    satisfying the condition satisfies the OSC.
+
+    OK. Call it "fraction".
+
+       DONE.  2001-Mar-11
+
+23. After trying out the above, I would like optional parameters.
+
+       DONE.  2001-Mar-11
+
+24. *** Seems to be problem with constructing valueabove ***
+    See  
+      Test_Valueabove     valueabove "H2:LSC-AS_I" threshold=49.7
+
+       DONE: was problem with optional parameters. 2001-Mar-13
+
+25. ? Maybe put in range of legal values of parameters ?
+
+26. Force fraction to be <= 1.
+
+      DONE. 2001-Mar-14
+
+27. Move constructor debug message to OperStateCond
+
+      DONE. 2001-Mar-16
+
+28. Read bitmasks in HEX and Octal format. (0x...)
+
+      DONE. 2001-Mar-19
+
+29. Deadtime for Transit OSCs.
+      
+      DONE. 2001-Mar-19
+
+30. Add section about "include" and "ignore" directives to docs.
+
+31. Don't abort if satisfied() is called with non-existent OSC.
+
+32. In OSCs that depend on power spectrum, we thrash because we
+    allocate a new FSeries and a new FSpectrum on every pass through
+    ProcessData.  Want to put this in the constructor, but then the
+    issue is that we may be carrying around lots of unused memory if
+    those conditions are not actually used.
+
+    Current solution: put the declaration in the constructor:
+    initialization is allocation.
+
+    If,later on, we have tons of conditions that are carried around
+    without actually being checked, we'll deal with it.
+   
+
+33. Fix OperStateCondList::setDebug(std::string oscname, int dbg) to 
+    check that an OSC with oscname actually exists.
+
+     DONE.
+
+
+34. Maybe want to have option that will allow OSC to return the value
+    it looked at to decide if the condition is satisfied.
+
+
+35. More conditions:
+
+    Rate conditions on the values, and averages of the time series.
+
+       DONE.
+
+    Glitches, per Masahiro.
+    Earthquake, per Rauha.
+
+
+36. Use readParamsFromChanMaybe() in ALL OSCs.
+
+       DONE.
+
+37. FIXME FIXME FIXME!!! reading params from channels don't work 
+    the way we really want it to.  Fixup the Param class.
+
+    Hmmmmm.  Seems I've done it with 
+    OperStateCond::readParamsFromChansMaybe(). Works well
+    enough. Consider it DONE.
+
+38. FIXME FIXME FIXME: If we have only one abspowerabove or
+    valueabove or valuebelow OSC, it dumps core.
+    Two conditions also. 
+    DOH! It helps if I don't ask watchedQuantity() for a non-existent
+    OSC.
+
+       DONE.
+
+39. Fix up docs to include info about watchedQuantity() method and
+    TSWindow class.
+
+
+40. Fix exception throws in TransitUp and TransitDown.
+
+41. Update RMS computation. FSeries class has faster implementation 
+    Power() than FSpectrum.
+

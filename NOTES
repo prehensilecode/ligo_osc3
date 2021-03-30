@@ -1,0 +1,9 @@
+Talk to Masahiro re glitch monitor:
+
+Signal is high-pass filtered.
+Set thresholds above and below the running average by N times 
+standard deviation.  When signal goes above threshold, tag it
+as a possible start.  The next one above threshold is possible
+end.  Wait for some period of time.  If all quiet, last possible
+end is the end, Else tag new possible end, and wait again.
+(A little like lockloss.)
